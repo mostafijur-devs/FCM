@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1054961641163",
+    "project_id": "fcm-use-2648d",
+    "storage_bucket": "fcm-use-2648d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1054961641163:android:e7f2a5ac7acf89a6f8dd4e",
+        "android_client_info": {
+          "package_name": "com.example.fcm_firebase_cloud_massaageing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW3ZQX0o-aD29CnlVkMTVuqRtGWL1kKj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
