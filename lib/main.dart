@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 Future<void> _onBackground(RemoteMessage message) async {
   await Firebase.initializeApp();
-  NotificationHelper.show(message);
+  NotificationHelper.show(message,);
 }
 
 void main() async {
@@ -16,7 +16,7 @@ void main() async {
   // firebase platform initialize
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Firebase
+  // Firebase background message
   FirebaseMessaging.onBackgroundMessage(_onBackground);
 
   // firebase messaging permission
@@ -25,10 +25,8 @@ void main() async {
   FirebaseMessaging.instance.subscribeToTopic("text");
 
   // firebase massage send function
-  FirebaseMessaging.onMessage.listen((massage) {
-    NotificationHelper.show(massage);
-  });
-  NotificationHelper.initialize();
+
+
   runApp(const MyApp());
 }
 
