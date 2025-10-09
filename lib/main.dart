@@ -13,10 +13,18 @@ Future<void> _onBackground(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // firebase platform initialize
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // Firebase
   FirebaseMessaging.onBackgroundMessage(_onBackground);
+
+  // firebase messaging permission
   FirebaseMessaging.instance.requestPermission();
+  // create firebase topic
   FirebaseMessaging.instance.subscribeToTopic("text");
+
+  // firebase massage send function
   FirebaseMessaging.onMessage.listen((massage) {
     NotificationHelper.show(massage);
   });

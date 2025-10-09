@@ -14,11 +14,15 @@ class NotificationHelper {
       android: android,
       iOS: iOS,
     );
-    await notification.initialize(initializationSettings);
+
+    // notification initialization create
+    await notification.initialize(initializationSettings,);
+
+    //device token call function
     getDeviceToken();
 
 
-
+// android notification permission function condition
     if (Platform.isAndroid) {
       await notification
           .resolvePlatformSpecificImplementation<
@@ -40,11 +44,12 @@ class NotificationHelper {
     }
   }
 
+  // get token function
   static getDeviceToken() async {
    String? deviceToken = await FirebaseMessaging.instance.getToken();
    print(deviceToken);
   }
-
+// refresh token function
   static refreshDeviceToken()async{
 
     FirebaseMessaging.instance.onTokenRefresh.listen((event) {
@@ -54,7 +59,7 @@ class NotificationHelper {
 
   }
 
-
+//Notification show function
   static show(RemoteMessage massage) async {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails("channelId", "channelName");
