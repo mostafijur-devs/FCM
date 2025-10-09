@@ -5,13 +5,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
 
+Future<void> _onBackground(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  NotificationHelper.show(message);
+}
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
-  );
-FirebaseMessaging.instance.subscribeToTopic("text");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_onBackground);
+  FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.instance.subscribeToTopic("text");
   FirebaseMessaging.onMessage.listen((massage) {
     NotificationHelper.show(massage);
   });
@@ -30,8 +35,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const HomeScreen()
+      home: const HomeScreen(),
     );
   }
 }
+
 

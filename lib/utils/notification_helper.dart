@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class NotificationHelper {
- static final notification = FlutterLocalNotificationsPlugin();
+  static final notification = FlutterLocalNotificationsPlugin();
 
   static initialize() async {
     AndroidInitializationSettings android = AndroidInitializationSettings(
@@ -15,6 +15,9 @@ class NotificationHelper {
       iOS: iOS,
     );
     await notification.initialize(initializationSettings);
+    getDeviceToken();
+
+
 
     if (Platform.isAndroid) {
       await notification
@@ -22,12 +25,13 @@ class NotificationHelper {
             AndroidFlutterLocalNotificationsPlugin
           >()
           ?.requestNotificationsPermission();
-      await notification
-          .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin
-          >()
-          ?.requestExactAlarmsPermission();
-    } else {
+      // await notification
+      //     .resolvePlatformSpecificImplementation<
+      //       AndroidFlutterLocalNotificationsPlugin
+      //     >()
+      //     ?.requestExactAlarmsPermission();
+    }
+    else {
       await notification
           .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin
@@ -36,14 +40,35 @@ class NotificationHelper {
     }
   }
 
-  static show (RemoteMessage massage)async{
-    AndroidNotificationDetails androidNotificationDetails =AndroidNotificationDetails("channelId", "channelName");
+  static getDeviceToken() async {
+   String? deviceToken = await FirebaseMessaging.instance.getToken();
+   print(deviceToken);
+  }
+
+  static refreshDeviceToken()async{
+
+    FirebaseMessaging.instance.onTokenRefresh.listen((event) {
+      event.toString();
+      print('Refresh');
+    },);
+
+  }
+
+
+  static show(RemoteMessage massage) async {
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails("channelId", "channelName");
     DarwinNotificationDetails iOS = DarwinNotificationDetails();
     NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
-      iOS: iOS
+      iOS: iOS,
     );
 
-    await notification.show(100, 'Sample title', 'This is notification body', notificationDetails);
+    await notification.show(
+      massage.hashCode,
+      massage.notification?.title,
+      massage.notification?.body,
+      notificationDetails,
+    );
   }
 }
