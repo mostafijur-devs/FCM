@@ -18,6 +18,7 @@ class NotificationHelper {
   }
 
   static localNotificationInitialize(BuildContext context,RemoteMessage massage) async {
+
     AndroidInitializationSettings android = AndroidInitializationSettings(
       '@mipmap/ic_launcher',
     );
